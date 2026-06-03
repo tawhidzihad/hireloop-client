@@ -1,6 +1,11 @@
+import dns from "node:dns";
+dns.setDefaultResultOrder("ipv4first");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Manrope } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -24,6 +29,7 @@ export default function RootLayout({ children }) {
 				<Navbar></Navbar>
 				<main>{children}</main>
 				<Footer></Footer>
+				<Toaster position="top-center" reverseOrder={false} />
 			</body>
 		</html>
 	);

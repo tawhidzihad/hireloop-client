@@ -1,12 +1,19 @@
 "use client";
 
-import { Button } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
+import { Button, Spinner } from "@heroui/react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
+	const { data: session, isPending } = authClient.useSession();
+	const user = session?.user;
+
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const navLinks = [
@@ -14,6 +21,20 @@ export default function Navbar() {
 		{ name: "Company", href: "/company" },
 		{ name: "Pricing", href: "/pricing" },
 	];
+
+	const handleSignOut = async () => {
+		const toastId = toast.loading("Signing out...");
+		await authClient.signOut({
+			fetchOptions: {
+				onSuccess: () => {
+					toast.success("Signed out successfully", {
+						id: toastId,
+					});
+					router.push("/");
+				},
+			},
+		});
+	};
 
 	return (
 		<header className="w-full py-6 px-4 bg-black">
@@ -45,16 +66,36 @@ export default function Navbar() {
 
 						<div className="h-6 w-px bg-white/15" />
 
-						<Link
-							href="/login"
-							className="text-[#7565FF] font-medium hover:text-[#8a7cff] transition"
-						>
-							Sign In
-						</Link>
+						{isPending ? (
+							<div className="flex flex-col items-center">
+								<Spinner size="lg" className="text-[#7565FF]" />
+							</div>
+						) : user ? (
+							<div className="flex items-center gap-3">
+								<p>
+									Hey{" "}
+									<span className="text-[#7565FF]">{user?.name}</span>
+								</p>
+								<Button variant="outline" onClick={handleSignOut}>
+									Log Out
+								</Button>
+							</div>
+						) : (
+							<>
+								<Link
+									href="/auth/signin"
+									className="text-[#7565FF] font-medium hover:text-[#8a7cff] transition"
+								>
+									Sign In
+								</Link>
 
-						<Button className=" bg-[#6D5DFD] text-white font-medium px-7 min-w-33.75 h-12 hover:scale-[1.03] transition-all rounded-xl">
-							Get Started
-						</Button>
+								<Link href={"/auth/signup"}>
+									<Button className=" bg-[#6D5DFD] text-white font-medium px-7 min-w-33.75 h-12 hover:scale-[1.03] transition-all rounded-xl">
+										Get Started
+									</Button>
+								</Link>
+							</>
+						)}
 					</div>
 
 					{/* Mobile Button */}
@@ -81,13 +122,38 @@ export default function Navbar() {
 								</Link>
 							))}
 
-							<Link href="/login" className="text-[#7565FF]">
-								Sign In
-							</Link>
+							{isPending ? (
+								<div className="flex justify-start items-center">
+									<Spinner size="lg" className="text-[#7565FF]" />
+								</div>
+							) : user ? (
+								<div className="flex items-center justify-between">
+									<p>
+										Hey{" "}
+										<span className="text-[#7565FF]">
+											{user?.name}
+										</span>
+									</p>
+									<Button variant="ghost" onClick={handleSignOut}>
+										Log Out
+									</Button>
+								</div>
+							) : (
+								<>
+									<Link
+										href={"/auth/signin"}
+										className="text-[#7565FF]"
+									>
+										Sign In
+									</Link>
 
-							<Button className="bg-[#6D5DFD] text-white w-full">
-								Get Started
-							</Button>
+									<Link href={"/auth/signup"}>
+										<Button className="bg-[#6D5DFD] text-white w-full">
+											Get Started
+										</Button>
+									</Link>
+								</>
+							)}
 						</div>
 					</div>
 				)}
