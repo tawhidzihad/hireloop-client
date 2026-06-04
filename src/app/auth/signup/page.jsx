@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { Label, Radio, RadioGroup } from "@heroui/react";
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,7 +11,7 @@ import toast from "react-hot-toast";
 
 export default function SignupPage() {
 	const router = useRouter();
-
+	const [role, setRole] = useState("seeker");
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -50,9 +51,10 @@ export default function SignupPage() {
 		const toastId = toast.loading("Creating account...");
 
 		const { data, error } = await authClient.signUp.email({
-			email: formData.email,
-			password: formData.password,
 			name: formData.name,
+			email: formData.email,
+			role,
+			password: formData.password,
 		});
 
 		if (error) {
@@ -171,6 +173,35 @@ export default function SignupPage() {
 										{errors.email.message}
 									</p>
 								)}
+							</div>
+
+							{/* Role Selection */}
+							<div className="flex flex-col gap-4">
+								<RadioGroup
+									defaultValue="seeker"
+									name="role"
+									orientation="horizontal"
+									onChange={(value) => setRole(value)}
+								>
+									<Radio value="seeker">
+										<Radio.Control>
+											<Radio.Indicator />
+										</Radio.Control>
+
+										<Radio.Content>
+											<Label>Job Seeker</Label>
+										</Radio.Content>
+									</Radio>
+
+									<Radio value="recruiter">
+										<Radio.Control>
+											<Radio.Indicator />
+										</Radio.Control>
+										<Radio.Content>
+											<Label>Recruiter</Label>
+										</Radio.Content>
+									</Radio>
+								</RadioGroup>
 							</div>
 
 							{/* Password */}

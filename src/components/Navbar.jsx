@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { NavbarLoginUserDropdown } from "./NavbarLoginUserDropdown";
 
 export default function Navbar() {
 	const { data: session, isPending } = authClient.useSession();
@@ -72,13 +73,14 @@ export default function Navbar() {
 							</div>
 						) : user ? (
 							<div className="flex items-center gap-3">
-								<p>
-									Hey{" "}
-									<span className="text-[#7565FF]">{user?.name}</span>
+								<p className="text-xl">
+									Hey, <span className="text-[#7565FF]">Welcome</span>
 								</p>
-								<Button variant="outline" onClick={handleSignOut}>
-									Log Out
-								</Button>
+
+								<NavbarLoginUserDropdown
+									handleSignOut={handleSignOut}
+									user={user}
+								></NavbarLoginUserDropdown>
 							</div>
 						) : (
 							<>
@@ -127,16 +129,11 @@ export default function Navbar() {
 									<Spinner size="lg" className="text-[#7565FF]" />
 								</div>
 							) : user ? (
-								<div className="flex items-center justify-between">
-									<p>
-										Hey{" "}
-										<span className="text-[#7565FF]">
-											{user?.name}
-										</span>
-									</p>
-									<Button variant="ghost" onClick={handleSignOut}>
-										Log Out
-									</Button>
+								<div>
+									<NavbarLoginUserDropdown
+										handleSignOut={handleSignOut}
+										user={user}
+									></NavbarLoginUserDropdown>
 								</div>
 							) : (
 								<>
