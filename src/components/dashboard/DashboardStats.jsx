@@ -1,7 +1,7 @@
-import ApplicationsCard from "./ApplicationsCard";
-import CompaniesCard from "./CompaniesCard";
+import ApplicationsCard from "../ui/ApplicationsCard";
+import CompaniesCard from "../ui/CompaniesCard";
 import DashboardSection from "./DashboardSection";
-import StateCard from "./StateCard";
+import StateCard from "../ui/StateCard";
 
 export default function DashboardStats({
 	userName,

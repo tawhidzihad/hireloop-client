@@ -1,10 +1,10 @@
 import ManageJobsSection from "@/components/dashboard/ManageJobsSection";
+import { getLoggedInRecruiterCompany } from "@/lib/api/companies";
 import { getCompanyJobs } from "@/lib/api/jobs";
 
 const RecruiterJobsPage = async () => {
-	const companyId = "company_001"; //TODO: work left
-
-	const jobs = await getCompanyJobs(companyId);
+	const company = await getLoggedInRecruiterCompany();
+	const jobs = (await getCompanyJobs(company?._id)) || [];
 
 	return (
 		<div>

@@ -16,7 +16,7 @@ export function DashboardSidebar() {
 		{
 			icon: IoMdBusiness,
 			label: "My Companies",
-			href: "/",
+			href: "/dashboard/recruiter/companies",
 		},
 		{
 			icon: LuBriefcaseBusiness,
@@ -44,7 +44,7 @@ export function DashboardSidebar() {
 
 	return (
 		<div className="px-4 flex justify-end pb-5 lg:pb-0 lg:px-0">
-			<aside className="hidden w-64 shrink-0 border-r border-t border-default p-4 lg:block">
+			<aside className="hidden lg:block w-64 shrink-0 border-r border-t border-default p-4 ">
 				{navContent}
 			</aside>
 

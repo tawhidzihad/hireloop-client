@@ -57,7 +57,7 @@ export function NavbarLoginUserDropdown({ handleSignOut, user }) {
 						id="dashboard"
 						textValue="Dashboard"
 						as={Link}
-						href="/dashboard"
+						href="/dashboard/recruiter"
 					>
 						<Label>Dashboard</Label>
 					</Dropdown.Item>

@@ -19,7 +19,7 @@ export default function Navbar() {
 
 	const navLinks = [
 		{ name: "Browse Jobs", href: "/jobs" },
-		{ name: "Company", href: "/company" },
+		{ name: "Companies", href: "/companies" },
 		{ name: "Pricing", href: "/pricing" },
 	];
 
@@ -74,7 +74,8 @@ export default function Navbar() {
 						) : user ? (
 							<div className="flex items-center gap-3">
 								<p className="text-xl">
-									Hey, <span className="text-[#7565FF]">Welcome</span>
+									Hey,{" "}
+									<span className="text-[#7565FF]">{user?.name}</span>
 								</p>
 
 								<NavbarLoginUserDropdown
