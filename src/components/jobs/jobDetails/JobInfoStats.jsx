@@ -19,7 +19,11 @@ export default function JobInfoStats({ job }) {
 		},
 		{
 			label: "Deadline",
-			value: job.deadline,
+			value: new Date(job.deadline).toLocaleDateString("en-US", {
+				month: "short",
+				day: "numeric",
+				year: "numeric",
+			}),
 			icon: Calendar,
 		},
 	];
@@ -37,7 +41,9 @@ export default function JobInfoStats({ job }) {
 						{card.label}
 					</p>
 
-					<h3 className="mt-2 font-medium text-white capitalize">{card.value}</h3>
+					<h3 className="mt-2 font-medium text-white capitalize">
+						{card.value}
+					</h3>
 				</div>
 			))}
 		</div>

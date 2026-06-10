@@ -37,7 +37,7 @@ export default function JobDetailsHeader({ job }) {
 					</button>
 
 					<Link
-						href={`/jobs/apply/${job._id}`}
+						href={`/jobs/${job._id}/apply`}
 						className="rounded-xl bg-white px-6 py-3 font-medium text-black"
 					>
 						Apply Now

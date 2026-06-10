@@ -4,16 +4,19 @@ import { authClient } from "@/lib/auth-client";
 import { Label, Radio, RadioGroup } from "@heroui/react";
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function SignupPage() {
-	const router = useRouter();
 	const [role, setRole] = useState("seeker");
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const redirectTo = searchParams.get("redirect") || "/";
 
 	const {
 		register,
@@ -69,7 +72,7 @@ export default function SignupPage() {
 				id: toastId,
 			});
 			await authClient.signOut();
-			router.push("/auth/signin");
+			router.push(redirectTo);
 		}
 	};
 
@@ -310,7 +313,7 @@ export default function SignupPage() {
 							<p className="text-zinc-400">
 								Already have an account?{" "}
 								<Link
-									href="/auth/signin"
+									href={`/auth/signin?redirect=${redirectTo}`}
 									className="font-medium text-[#6D5DFD]"
 								>
 									Sign In

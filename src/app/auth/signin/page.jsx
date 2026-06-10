@@ -3,14 +3,17 @@
 import { authClient } from "@/lib/auth-client";
 import { Check, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function SignInPage() {
-	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
+
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const redirectTo = searchParams.get("redirect") || "/";
 
 	const {
 		register,
@@ -43,7 +46,7 @@ export default function SignInPage() {
 			toast.success("Signin successful!", {
 				id: toastId,
 			});
-			router.push("/");
+			router.push(redirectTo);
 		}
 	};
 
@@ -174,7 +177,7 @@ export default function SignInPage() {
 							<p className="text-zinc-400">
 								Don&lsquo;t have an account?{" "}
 								<Link
-									href="/auth/signup"
+									href={`/auth/signup?redirect=${redirectTo}`}
 									className="font-medium text-[#6D5DFD]"
 								>
 									Sign Up
