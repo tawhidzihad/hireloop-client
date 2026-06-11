@@ -18,6 +18,8 @@ export default function SignupPage() {
 	const searchParams = useSearchParams();
 	const redirectTo = searchParams.get("redirect") || "/";
 
+	const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
+
 	const {
 		register,
 		handleSubmit,
@@ -57,6 +59,7 @@ export default function SignupPage() {
 			name: formData.name,
 			email: formData.email,
 			role,
+			plan,
 			password: formData.password,
 		});
 

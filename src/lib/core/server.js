@@ -6,6 +6,7 @@ export const serverFetch = async (path) => {
 	return res.json();
 };
 
+
 // server data created , update, delete
 export const serverMutaion = async (path, method, data) => {
 	const res = await fetch(`${baseApiUrl}${path}`, {
