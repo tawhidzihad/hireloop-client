@@ -3,6 +3,12 @@ import { Avatar, Dropdown, Label } from "@heroui/react";
 import Link from "next/link";
 
 export function NavbarLoginUserDropdown({ handleSignOut, user }) {
+	const dashboardLinks = {
+		seeker: "/dashboard/seeker",
+		recruiter: "/dashboard/recruiter",
+		admin: "/dashboard/admin",
+	};
+
 	const initials =
 		user?.name
 			?.trim()
@@ -57,7 +63,7 @@ export function NavbarLoginUserDropdown({ handleSignOut, user }) {
 						id="dashboard"
 						textValue="Dashboard"
 						as={Link}
-						href="/dashboard/recruiter"
+						href={`${user?.email && dashboardLinks[user?.role]}`}
 					>
 						<Label>Dashboard</Label>
 					</Dropdown.Item>

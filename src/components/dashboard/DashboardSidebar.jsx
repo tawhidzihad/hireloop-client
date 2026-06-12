@@ -1,13 +1,18 @@
+import { getUserSession } from "@/lib/core/session";
 import { Gear, LayoutSideContent } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import Link from "next/link";
-import { FaMoneyBills } from "react-icons/fa6";
+import { FaFileAlt, FaRegBookmark, FaSearch } from "react-icons/fa";
+import { FaMoneyBill1Wave, FaMoneyBills } from "react-icons/fa6";
 import { IoMdBusiness } from "react-icons/io";
 import { LuBriefcaseBusiness } from "react-icons/lu";
+import { PiUsersDuotone } from "react-icons/pi";
 import { RiDashboardLine } from "react-icons/ri";
 
-export function DashboardSidebar() {
-	const navItems = [
+export async function DashboardSidebar() {
+	const user = await getUserSession();
+
+	const recruiterNavLinks = [
 		{
 			icon: RiDashboardLine,
 			label: "Dashboard",
@@ -26,6 +31,73 @@ export function DashboardSidebar() {
 		{ icon: FaMoneyBills, label: "Applications", href: "/" },
 		{ icon: Gear, label: "Settings", href: "/" },
 	];
+
+	const seekerNavlinks = [
+		{
+			icon: RiDashboardLine,
+			label: "Dashboard",
+			href: "/dashboard/seeker",
+		},
+		{
+			icon: FaSearch,
+			label: "Jobs",
+			href: "/dashboard/seeker/jobs",
+		},
+		{
+			icon: FaRegBookmark,
+			label: "Saved Jobs",
+			href: "/dashboard/seeker/saved-jobs",
+		},
+		{
+			icon: FaFileAlt,
+			label: "Applications",
+			href: "/dashboard/seeker/applications",
+		},
+		{
+			icon: FaMoneyBill1Wave,
+			label: "Billing",
+			href: "/dashboard/seeker/billing",
+		},
+		{ icon: Gear, label: "Settings", href: "/" },
+	];
+
+	const adminNavlinks = [
+		{
+			icon: RiDashboardLine,
+			label: "Dashboard",
+			href: "/dashboard/admin",
+		},
+		{
+			icon: PiUsersDuotone,
+			label: "Users",
+			href: "/dashboard/admin/users",
+		},
+		{
+			icon: IoMdBusiness,
+			label: "Companies",
+			href: "/dashboard/admin/companies",
+		},
+		{
+			icon: LuBriefcaseBusiness,
+			label: "Jobs",
+			href: "/dashboard/admin/jobs",
+		},
+		{
+			icon: FaMoneyBills,
+			label: "Payments",
+			href: "/dashboard/admin/payments",
+		},
+		{ icon: Gear, label: "Settings", href: "/" },
+	];
+
+	// Conditional navlinks
+	const navlinksMap = {
+		seeker: seekerNavlinks,
+		recruiter: recruiterNavLinks,
+		admin: adminNavlinks,
+	};
+
+	const navItems = navlinksMap[user?.role || "seeker"];
 
 	const navContent = (
 		<nav className="flex flex-col gap-1">

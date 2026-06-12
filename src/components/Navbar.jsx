@@ -18,9 +18,9 @@ export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const navLinks = [
-		{ name: "Browse Jobs", href: "/jobs" },
-		{ name: "Companies", href: "/companies" },
-		{ name: "Pricing", href: "/pricing" },
+		{ label: "Browse Jobs", href: "/jobs" },
+		{ label: "Companies", href: "/companies" },
+		{ label: "Pricing", href: "/pricing" },
 	];
 
 	const handleSignOut = async () => {
@@ -57,11 +57,11 @@ export default function Navbar() {
 					<div className="hidden md:flex items-center gap-10">
 						{navLinks.map((item) => (
 							<Link
-								key={item.name}
+								key={item.label}
 								href={item.href}
 								className=" text-white/90 text-sm font-medium transition hover:text-white"
 							>
-								{item.name}
+								{item.label}
 							</Link>
 						))}
 

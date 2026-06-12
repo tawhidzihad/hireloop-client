@@ -112,14 +112,18 @@ export default function CompanyForm({
 		const newCompanyData = {
 			...data,
 			recruiterId: recruiter?.id,
-			status: company?.status || "Pending",
+			status: company && company?.status ? company.status : "Pending",
 		};
 		onSubmit(newCompanyData);
 
 		const responseData = await createCompany(newCompanyData);
 		if (responseData.insertedId) {
+			const registaredCompany = {
+				...newCompanyData,
+				_id: responseData.insertedId,
+			};
+			onSubmit(registaredCompany);
 			toast.success("Company profile created successfully!");
-			router.refresh();
 		}
 	};
 

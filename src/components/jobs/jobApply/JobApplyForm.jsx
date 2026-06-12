@@ -28,6 +28,7 @@ export default function JobApplyForm({ applicant, job }) {
 			companyName: job?.companyName,
 			companyWebsite: job?.companyWebsite,
 			companyId: job?.companyId,
+			status: "applied",
 		};
 
 		const res = await submitApplication(newApplicationData);
