@@ -5,11 +5,11 @@ import { BriefcaseBusiness, Eye } from "lucide-react";
 import Link from "next/link";
 
 const statusColorMap = {
-	Applied: "default",
-	Review: "warning",
-	Shortlisted: "success",
-	Rejected: "danger",
-	Offered: "secondary",
+	applied: "accent",
+	review: "warning",
+	shortlisted: "success",
+	rejected: "danger",
+	offered: "secondary",
 };
 
 export default function ApplicationsTable({ applications = [] }) {
@@ -123,7 +123,7 @@ export default function ApplicationsTable({ applications = [] }) {
 
 								<Table.Column>Company</Table.Column>
 
-								<Table.Column>Applied</Table.Column>
+								<Table.Column>Applied Time</Table.Column>
 
 								<Table.Column>Status</Table.Column>
 
@@ -147,34 +147,69 @@ export default function ApplicationsTable({ applications = [] }) {
 												</p>
 											</div>
 										</Table.Cell>
-
 										<Table.Cell>{application.companyName}</Table.Cell>
-
-										<Table.Cell>{application.appliedAt}</Table.Cell>
-
 										<Table.Cell>
-											<Chip
-												size="sm"
-												variant="soft"
-												color={statusColorMap[application.status]}
-											>
-												{application.status}
-											</Chip>
+											{new Date(
+												application.createdAt,
+											).toLocaleDateString("en-US", {
+												month: "short",
+												day: "numeric",
+												year: "numeric",
+											})}
+										</Table.Cell>
+										<Table.Cell>
+											{application.status === "applied" ? (
+												<Chip
+													size="sm"
+													className="capitalize"
+													color="accent"
+												>
+													{application.status}
+												</Chip>
+											) : application.status === "review" ? (
+												<Chip
+													size="sm"
+													className="capitalize"
+													color="warning"
+												>
+													{application.status}
+												</Chip>
+											) : application.status === "shortlisted" ? (
+												<Chip
+													size="sm"
+													className="capitalize"
+													color="success"
+												>
+													{application.status}
+												</Chip>
+											) : application.status === "rejected" ? (
+												<Chip
+													size="sm"
+													className="capitalize"
+													color="danger"
+												>
+													{application.status}
+												</Chip>
+											) : (
+												<Chip
+													size="sm"
+													className="capitalize"
+													color="default"
+												>
+													{application.status}
+												</Chip>
+											)}
 										</Table.Cell>
 
 										<Table.Cell>
 											<div className="flex justify-end">
-												<Link
-													href={`/applications/${application._id}`}
+												<Button
+													isIconOnly
+													size="sm"
+													variant="ghost"
 												>
-													<Button
-														isIconOnly
-														size="sm"
-														variant="ghost"
-													>
-														<Eye size={16} />
-													</Button>
-												</Link>
+													<Eye size={16} />
+												</Button>
 											</div>
 										</Table.Cell>
 									</Table.Row>
