@@ -1,52 +1,63 @@
+const categories = [
+	"all",
+	"Technology",
+	"Software Development",
+	"Artificial Intelligence",
+	"FinTech",
+	"E-Commerce",
+	"Healthcare",
+	"Education",
+	"Telecommunications",
+	"Marketing & Advertising",
+	"Real Estate",
+	"Manufacturing",
+	"Logistics & Supply Chain",
+	"Media & Entertainment",
+	"Cybersecurity",
+	"Transportation & Technology",
+	"Travel & Hospitality",
+	"Consumer Electronics",
+	"Technology & Internet Services",
+	"Software & Cloud Computing",
+	"Entertainment & Streaming",
+	"Semiconductor & AI",
+	"Music Streaming",
+	"Automotive & Clean Energy",
+];
+
 export default function JobsToolbar({
-	setCompanyJobs,
-	sortBy,
-	setSortBy,
-	companyJobs,
+	jobs,
+	selectedCategory,
+	setSelectedCategory,
 }) {
-	const handleSort = (e) => {
+	const handleCategoryChange = (e) => {
 		const value = e.target.value;
-
-		setSortBy(value);
-
-		const sortedJobs = [...companyJobs];
-
-		if (value === "recent") {
-			sortedJobs.sort(
-				(a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-			);
-		}
-
-		if (value === "highSalary") {
-			sortedJobs.sort((a, b) => Number(b.maxSalary) - Number(a.maxSalary));
-		}
-
-		if (value === "lowSalary") {
-			sortedJobs.sort((a, b) => Number(a.minSalary) - Number(b.minSalary));
-		}
-
-		setCompanyJobs(sortedJobs);
+		setSelectedCategory(value);
 	};
 
 	return (
 		<div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<h2 className="text-2xl font-semibold text-white">
-				Found {companyJobs.length} Professional Jobs
+				Found {jobs.length} Professional Jobs
 			</h2>
 
 			<div className="flex items-center gap-3">
-				<span className="text-sm text-zinc-500">Sort by:</span>
+				<span className="text-sm text-zinc-500">Category:</span>
 
 				<select
-					value={sortBy}
-					onChange={handleSort}
-					className="rounded bg-zinc-900 p-1 text-white outline-none"
+					value={selectedCategory || "all"}
+					onChange={handleCategoryChange}
+					className="h-10 rounded-lg border border-white/10 bg-zinc-900 px-4 text-sm text-white outline-none transition focus:border-[#6D5DFD]"
 				>
-					<option value="recent">Most Recent</option>
-
-					<option value="highSalary">Highest Salary</option>
-
-					<option value="lowSalary">Lowest Salary</option>
+					{categories.map((category) => (
+						<option
+							key={category}
+							value={category}
+							className="bg-zinc-900"
+						>
+							{category === "all" ? "All Categories" : category}
+						</option>
+					))}
 				</select>
 			</div>
 		</div>

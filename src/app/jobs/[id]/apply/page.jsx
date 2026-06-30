@@ -83,11 +83,11 @@ const ApplyPage = async ({ params }) => {
 
 				<ApplicationLimitCard
 					totalApplications={applications.length}
-					monthlyLimit={plan.maxApplicationPerMonth}
+					monthlyLimit={plan.maxApplicationsPerMonth}
 					planName={plan.name}
 				/>
 
-				{applications.length < plan.maxApplicationPerMonth ? (
+				{applications.length < plan.maxApplicationsPerMonth ? (
 					<div className="mt-6 grid gap-6 lg:grid-cols-[320px_1fr]">
 						<JobApplySummary job={job} />
 						<JobApplyForm applicant={user} job={job} />

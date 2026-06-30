@@ -1,28 +1,14 @@
 import { Search } from "lucide-react";
+import { useState } from "react";
 
 export default function JobSearchBar({
-	allJobs,
 	searchTerm,
 	setSearchTerm,
-	setCompanyJobs,
 }) {
+	const [inputValue, setInputValue] = useState(searchTerm);
+
 	const handleSearch = () => {
-		const term = searchTerm.toLowerCase().trim();
-
-		if (!term) {
-			setCompanyJobs(allJobs);
-			return;
-		}
-
-		const filteredJobs = allJobs.filter((job) => {
-			return (
-				job.jobTitle?.toLowerCase().includes(term) ||
-				job.jobCategory?.toLowerCase().includes(term) ||
-				job.companyName?.toLowerCase().includes(term)
-			);
-		});
-
-		setCompanyJobs(filteredJobs);
+		setSearchTerm(inputValue.trim());
 	};
 
 	const handleKeyDown = (e) => {
@@ -41,18 +27,18 @@ export default function JobSearchBar({
 					/>
 
 					<input
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
+						value={inputValue}
+						onChange={(e) => setInputValue(e.target.value)}
 						onKeyDown={handleKeyDown}
 						type="text"
 						placeholder="Search by Job title, Company name, Job category"
-						className=" h-12 w-full rounded-xl border border-white/10 bg-zinc-900 pl-11 pr-4 text-white outline-none focus:border-[#6D5DFD]"
+						className="h-12 w-full rounded-xl border border-white/10 bg-zinc-900 pl-11 pr-4 text-white outline-none focus:border-[#6D5DFD]"
 					/>
 				</div>
 
 				<button
 					onClick={handleSearch}
-					className=" h-12 rounded-xl bg-white px-8 font-medium text-black"
+					className="h-12 rounded-xl bg-white px-8 font-medium text-black"
 				>
 					Search Jobs
 				</button>

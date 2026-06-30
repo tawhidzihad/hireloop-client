@@ -1,10 +1,9 @@
 import { serverFetch } from "../core/server";
 const baseApiUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
-
 // get all jobs
-export const getJobs = () => {
-	return serverFetch("/api/jobs");
+export const getJobs = (queryString) => {
+	return serverFetch(`/api/jobs?${queryString}`);
 };
 
 // get single jobs

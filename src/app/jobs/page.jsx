@@ -1,12 +1,26 @@
 import { getJobs } from "@/lib/api/jobs";
 import BrowseJobsPageSection from "./BrowseJobsPageSection";
 
-const BrowseJobsPage = async () => {
-	const jobs = await getJobs();
+const BrowseJobsPage = async ({ searchParams }) => {
+	const searchQuery = await searchParams;
+
+	const searchQueryObj = {
+		...searchQuery,
+		isRemote: searchQuery.isRemote === "true" ? true : false,
+	};
+
+	const objToURLParams = new URLSearchParams(searchQuery);
+
+	const queryString = objToURLParams.toString();
+
+	const jobs = await getJobs(queryString);
 
 	return (
 		<>
-			<BrowseJobsPageSection jobs={jobs}></BrowseJobsPageSection>
+			<BrowseJobsPageSection
+				searchQuery={searchQueryObj}
+				jobs={jobs || []}
+			></BrowseJobsPageSection>
 		</>
 	);
 };
