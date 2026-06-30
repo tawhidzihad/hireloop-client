@@ -38,7 +38,7 @@ export default function JobsToolbar({
 	return (
 		<div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<h2 className="text-2xl font-semibold text-white">
-				Found {jobs.length} Professional Jobs
+				Showing {jobs.length} Professional Jobs
 			</h2>
 
 			<div className="flex items-center gap-3">

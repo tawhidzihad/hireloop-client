@@ -13,13 +13,14 @@ const BrowseJobsPage = async ({ searchParams }) => {
 
 	const queryString = objToURLParams.toString();
 
-	const jobs = await getJobs(queryString);
+	const { jobs, total } = await getJobs(queryString);
 
 	return (
 		<>
 			<BrowseJobsPageSection
 				searchQuery={searchQueryObj}
 				jobs={jobs || []}
+				total={total}
 			></BrowseJobsPageSection>
 		</>
 	);

@@ -8,11 +8,8 @@ import JobsToolbar from "@/components/jobs/JobsToolbar";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function BrowseJobsPageSection({ searchQuery, jobs }) {
+export default function BrowseJobsPageSection({ searchQuery, jobs, total }) {
 	const router = useRouter();
-
-	// after serach and filter set the condition matched jobs
-	const [companyJobs, setCompanyJobs] = useState(jobs);
 
 	// Seacrh value store
 	const [searchTerm, setSearchTerm] = useState(searchQuery.search || "");
@@ -30,16 +27,41 @@ export default function BrowseJobsPageSection({ searchQuery, jobs }) {
 	// Is remote
 	const [isRemote, setIsRemote] = useState(searchQuery.isRemote || false);
 
-	// Pagination state
-	const [currentPage, setCurrentPage] = useState(1);
-	const jobsPerPage = 6;
-	const totalPages = Math.ceil(companyJobs.length / jobsPerPage);
-	const startIndex = (currentPage - 1) * jobsPerPage;
-	const paginatedJobs = companyJobs.slice(
-		startIndex,
-		startIndex + jobsPerPage,
-	);
+	/*============Pagenations================= */
+	const [page, setPage] = useState(searchQuery.page || 1);
 
+	const totalItems = total;
+
+	const itemsPerPage = 6;
+
+	const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+	const getPageNumbers = () => {
+		const pages = [];
+
+		pages.push(1);
+
+		if (page > 3) {
+			pages.push("ellipsis");
+		}
+
+		const start = Math.max(2, page - 1);
+		const end = Math.min(totalPages - 1, page + 1);
+
+		for (let i = start; i <= end; i++) {
+			pages.push(i);
+		}
+
+		if (page < totalPages - 2) {
+			pages.push("ellipsis");
+		}
+
+		pages.push(totalPages);
+
+		return pages;
+	};
+
+	/*===========Use Effect for Load Data=========== */
 	useEffect(() => {
 		const sp = new URLSearchParams();
 
@@ -67,10 +89,15 @@ export default function BrowseJobsPageSection({ searchQuery, jobs }) {
 			}
 		}
 
+		// Pagenations
+		if (page) {
+			sp.set("page", page);
+		}
+
 		const path = `?${sp.toString()}`;
 
 		router.push(path);
-	}, [router, selectedJobType, selectedCategory, searchTerm, isRemote]);
+	}, [router, selectedJobType, selectedCategory, searchTerm, isRemote, page]);
 
 	return (
 		<section className="pb-16 bg-black px-4 lg:px-0">
@@ -95,11 +122,14 @@ export default function BrowseJobsPageSection({ searchQuery, jobs }) {
 							setSelectedCategory={setSelectedCategory}
 						/>
 
-						<JobsGrid jobs={paginatedJobs} />
+						<JobsGrid jobs={jobs} />
 
 						<JobPagination
-							currentPage={currentPage}
-							setCurrentPage={setCurrentPage}
+							page={page}
+							itemsPerPage={itemsPerPage}
+							totalItems={totalItems}
+							setPage={setPage}
+							getPageNumbers={getPageNumbers}
 							totalPages={totalPages}
 						/>
 					</div>

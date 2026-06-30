@@ -10,7 +10,9 @@ export const authHeader = async () => {
 
 // server data fetch
 export const serverFetch = async (path) => {
-	const res = await fetch(`${baseApiUrl}${path}`);
+	const res = await fetch(`${baseApiUrl}${path}`, {
+		cache: "no-store",
+	});
 	return res.json();
 };
 
